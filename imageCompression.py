@@ -57,7 +57,9 @@ while open==True:
 
     name=input("Enter the image name with its extension: ")
 
-    if path.exists(name)==False:
+    if name=="":
+        exit(1)
+    elif path.exists(name)==False:
         print("\nERROR! FILE DOES NOT EXIST OR IS ANOTHER FORMAT THAN PNG!\nDo you want to exit? Write EXIT if you want!\n")
         if input()=="EXIT":
             open=False

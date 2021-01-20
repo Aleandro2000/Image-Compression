@@ -12,6 +12,13 @@ import os
 from os import path
 import random
 
+def show_images(img_name):
+    print("Loading...")
+    plt.title("Original Image")
+    plt.imshow(images[img_name])
+    plt.axis('off')
+    plt.show()
+
 def compress_image(img_name, k):
     print("Processing...")
     global compressed_image
@@ -44,7 +51,7 @@ def compress_image(img_name, k):
                     rimg[ind1,ind2,ind3] = 255
 
     compressed_image = rimg.astype(np.uint8)
-    plt.title("Image Name: "+img_name+"\n")
+    plt.title("Compressed Image")
     plt.imshow(compressed_image)
     plt.axis('off')
     plt.show()
@@ -73,14 +80,6 @@ while True:
         images = {
             "image": np.asarray(Image.open(name))
         }
-
-        def show_images(img_name):
-            'It will show image in widgets!'
-            print("Loading...")
-            plt.title("Close this plot to open compressed image...")
-            plt.imshow(images[img_name])
-            plt.axis('off')
-            plt.show()
 
         show_images('image')
         compressed_image = None

@@ -11,16 +11,18 @@ from IPython.display import display
 import os
 from os import path
 import random
+import time
 
 def show_images(img_name):
     print("Loading...")
     plt.title("Original Image")
     plt.imshow(images[img_name])
-    plt.axis('off')
     plt.show()
 
 def compress_image(img_name, k):
     print("Processing...")
+    start_time=time.time()
+
     global compressed_image
     img = images[img_name]
 
@@ -51,14 +53,14 @@ def compress_image(img_name, k):
                     rimg[ind1,ind2,ind3] = 255
 
     compressed_image = rimg.astype(np.uint8)
-    plt.title("Compressed Image")
+    
+    plt.title("Compressed Image\nElapsed time for compression: "+str(int(time.time()-start_time))+"s")
     plt.imshow(compressed_image)
-    plt.axis('off')
     plt.show()
     compressed_image = Image.fromarray(compressed_image)
 
-layout = [[sg.Text("Write the image name with its extension: ")], [sg.Input(key="input")], [sg.Button("SELECT")]]
-window = sg.Window("Image Compression", layout)
+layout=[[sg.Text("Write the image's name with its extension: ")], [sg.Input(key="input")], [sg.Button("SELECT")]]
+window=sg.Window("Image Compression", layout)
 
 random.seed(0)
 
@@ -71,10 +73,6 @@ while True:
         if name=="":
             exit(1)
         elif path.exists(name)==False:
-            if input()=="EXIT":
-                open=False
-            else:
-                os.system("@cls||clear")
             continue
 
         images = {
@@ -82,7 +80,7 @@ while True:
         }
 
         show_images('image')
-        compressed_image = None
+        compressed_image=None
         compress_image("image", sigma)
         compressed_image.save("compressed_image.png")
     elif event == sg.WIN_CLOSED:

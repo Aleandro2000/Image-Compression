@@ -21,9 +21,9 @@ def compress_image(img_name, k):
     b = img[:,:,2]
 
     print("Compressing...")
-    ur,sr,vr = svd(r, full_matrices=False)
-    ug,sg,vg = svd(g, full_matrices=False)
-    ub,sb,vb = svd(b, full_matrices=False)
+    ur,sr,vr = svd(r)
+    ug,sg,vg = svd(g)
+    ub,sb,vb = svd(b)
     rr = np.dot(ur[:,:k],np.dot(np.diag(sr[:k]), vr[:k,:]))
     rg = np.dot(ug[:,:k],np.dot(np.diag(sg[:k]), vg[:k,:]))
     rb = np.dot(ub[:,:k],np.dot(np.diag(sb[:k]), vb[:k,:]))

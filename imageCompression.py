@@ -1,5 +1,6 @@
 #Realized by Alexandru-Andrei Carmici and Mihai Necula
 
+import PySimpleGUI as sg
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.linalg import svd
@@ -49,49 +50,43 @@ def compress_image(img_name, k):
     plt.show()
     compressed_image = Image.fromarray(compressed_image)
 
+layout = [[sg.Text("Write the image name with its extension: ")], [sg.Input(key="input")], [sg.Button("SELECT")]]
+window = sg.Window("Image Compression", layout)
+
 random.seed(0)
 
-open=True
+while True:
+    event, values = window.read()
+    if event == "SELECT":
+        name=values["input"]
+        sigma=random.randrange(0,20)
 
-while open==True:
+        if name=="":
+            exit(1)
+        elif path.exists(name)==False:
+            if input()=="EXIT":
+                open=False
+            else:
+                os.system("@cls||clear")
+            continue
 
-    name=input("Enter the image name with its extension: ")
+        images = {
+            "image": np.asarray(Image.open(name))
+        }
 
-    if name=="":
-        exit(1)
-    elif path.exists(name)==False:
-        print("\nERROR! FILE DOES NOT EXIST OR IS ANOTHER FORMAT THAN PNG!\nDo you want to exit? Write EXIT if you want!\n")
-        if input()=="EXIT":
-            open=False
-        else:
-            os.system("@cls||clear")
-        continue
+        def show_images(img_name):
+            'It will show image in widgets!'
+            print("Loading...")
+            plt.title("Close this plot to open compressed image...")
+            plt.imshow(images[img_name])
+            plt.axis('off')
+            plt.show()
 
-    images = {
-        "image": np.asarray(Image.open(name))
-    }
-
-    def show_images(img_name):
-        'It will show image in widgets!'
-        print("Loading...")
-        plt.title("Close this plot to open compressed image...")
-        plt.imshow(images[img_name])
-        plt.axis('off')
-        plt.show()
-
-    show_images('image')
-    compressed_image = None
-
-    sigma = random.randrange(0,20)
-
-    print("Sigma: ",sigma)
-
-    compress_image("image", sigma)
-
-    compressed_image.save("compressed_image.png")
-    print("DONE!\n\nType EXIT to exit if you want!\n")
-    
-    if input()=="EXIT":
-        open=False
-    else:
-        os.system("@cls||clear")
+        show_images('image')
+        compressed_image = None
+        compress_image("image", sigma)
+        compressed_image.save("compressed_image.png")
+    elif event == sg.WIN_CLOSED:
+        break
+        
+window.close()

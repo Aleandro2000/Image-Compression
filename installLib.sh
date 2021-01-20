@@ -1,3 +1,5 @@
+pip install pysimplegui
+pip3 install pysimplegui
 pip install numpy
 pip3 install numpy
 pip install matplotlib

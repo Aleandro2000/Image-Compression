@@ -1,1 +1,1 @@
-This is a python script for image compression. It is realized by Alexandru-Andrei Carmici and Mihai Necula.
+This is a python script for image compression. It is realized by Alexandru-Andrei Carmici.
